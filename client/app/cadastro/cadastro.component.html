@@ -1,26 +1,34 @@
 <div class="container">
-
-    <form class="row" (submit)="cadastrar($event)">
+    <h1 class="text-center">{{foto.titulo}}</h1>
+    <form [formGroup]="meuForm" class="row" (submit)="cadastrar($event)">
         <div class="col-md-6">
             <div class="form-group">
                 <label>Título</label>
-                <input name="titulo" [(ngModel)]="foto.titulo" class="form-control"  autocomplete="off">    
+                <input formControlName="titulo"  name="titulo" [(ngModel)]="foto.titulo" class="form-control"  autocomplete="off">    
+                <div *ngIf="meuForm.controls.titulo.invalid">
+                    <span *ngIf="meuForm.controls.titulo.errors.required" class="form-control alert-danger">Título obrigatório</span>
+                    <span *ngIf="meuForm.controls.titulo.errors.minlength" class="form-control alert-danger">Título deve ter no minimo 4 caracteres</span>
+                </div>
             </div>
             <div class="form-group">
                 <label>URL</label>
-                <input name="url" [(ngModel)]="foto.url" class="form-control"  autocomplete="off">
+                <input formControlName="url"  name="url" [(ngModel)]="foto.url" class="form-control"  autocomplete="off">
+                <span *ngIf="meuForm.controls.url.invalid" class="form-control alert-danger">URL obrigatória</span>
             </div>
             <div class="form-group">
                 <label>Descrição</label>
-                <textarea name="descricao" [(ngModel)]="foto.descricao" [value]="foto.descricao" class="form-control"  autocomplete="off">
+                <textarea formControlName="descricao" name="descricao" [(ngModel)]="foto.descricao" class="form-control"  autocomplete="off">
                 </textarea>
             </div>
 
-            <button type="submit" class="btn btn-primary">
+            <button [disabled]="meuForm.invalid" type="submit" class="btn btn-primary">
                 Salvar
             </button>
              <a [routerLink]="['']" class="btn btn-primary">Voltar</a>
             <hr>
+        </div>
+        <div class="col-md-6">
+            <foto [url]="foto.url" [titulo]="foto.titulo"></foto>
         </div>
     </form>
 </div>
